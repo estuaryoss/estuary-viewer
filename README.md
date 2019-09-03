@@ -1,6 +1,8 @@
 # Estuary viewer
 View your deployments and tests. 
 
+[![Build Status](https://travis-ci.org/dinuta/estuary-viewer.svg?branch=master)](https://travis-ci.org/dinuta/estuary-viewer)
+
 Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-light-bootstrap-dashboard.git
 
 ## Project setup
