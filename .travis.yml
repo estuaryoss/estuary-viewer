@@ -12,10 +12,12 @@ before_install:
 install:
 
 before_script:
-  npm install
+  - npm install
 
 script:
-
+  - webdriver-manager update &
+  - webdriver-manager start &
+  - npm run serve &
 
 after_success:
 
