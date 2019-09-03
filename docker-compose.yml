@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  node:
+    image: "node:12"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8080"
+    ports:
+      - "80:8080"
+
+    command: "./start.sh"
