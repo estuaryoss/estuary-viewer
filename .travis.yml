@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 7
+  - 12
 
 services:
   - docker
@@ -8,19 +8,31 @@ services:
 env:
 
 before_install:
-
 install:
 
 before_script:
   - npm install
+  - npm run build
+  - docker build . -t dinutac/estuary-viewer:latest
 
 script:
-  - webdriver-manager update &
-  - webdriver-manager start &
-  - npm run serve &
-  - sleep 30
-  - npm test
+  - docker-compose -f docker-compose-entire_stack.yml up -d
+  - sleep 90
+  - docker ps
+  #  - generate 2 deployments and 1 testrun
+  - docker exec -ti estuaryviewer_estuary-deployer_1 bash -c "curl -i http://estuary-deployer:8080/deploystart/alpine.yml/variables.yml"
+  - docker exec -ti estuaryviewer_estuary-deployer_1 bash -c "curl -i http://estuary-deployer:8080/deploystart/alpine.yml/variables.yml"
+  - docker exec -ti estuaryviewer_estuary-deployer_1 bash -c "
+    curl -i
+    --request POST 'http://estuary-testrunner:8080/teststart/100'
+    --header 'Accept:application/json'
+    --header 'Content-Type:text/plain'
+    --data 'sleep 1\nsleep 2\nsleep 3600'"
+  - docker exec estuary-viewer sh -c "cd /home/node/app/; npm test"
+  - docker ps
 
 after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push dinutac/estuary-viewer:latest
 
 

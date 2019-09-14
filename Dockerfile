@@ -3,8 +3,8 @@ FROM node:12
 
 COPY ./ /home/node/app/
 
-RUN chmod 777 /home/node/app/start.sh
+RUN chmod 777 /home/node/app/*.sh
 
 EXPOSE 8080
 
-ENTRYPOINT ["/home/node/app/start.sh"]
+CMD ["/home/node/app/start.sh"]

@@ -3,7 +3,7 @@ import DashboardLayout from '../layout/DashboardLayout.vue'
 import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
-import Welcome from 'src/pages/Welcome.vue'
+import Overview from 'src/pages/Overview.vue'
 import Deployer from "../components/Estuary/Deployer";
 import TestRunner from "../components/Estuary/TestRunner";
 
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/welcome'
+    redirect: '/admin/overview'
   },
   {
     path: '/admin',
@@ -20,9 +20,9 @@ const routes = [
     redirect: '/admin/welcome',
     children: [
       {
-        path: 'welcome',
-        name: 'Welcome',
-        component: Welcome
+        path: 'overview',
+        name: 'Overview',
+        component: Overview
       },
       {
         path: 'estuary-deployer',

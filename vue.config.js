@@ -14,6 +14,7 @@ module.exports = {
   },
   lintOnSave: false,
   configureWebpack: {
+    mode: 'production',
     // Set up all the aliases we use in our app.
     resolve: {
       alias: {

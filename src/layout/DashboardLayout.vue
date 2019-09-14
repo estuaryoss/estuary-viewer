@@ -2,23 +2,27 @@
   <div class="wrapper">
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
+      <sidebar-link to="/admin/overview">
+        <i class="nc-icon nc-notes"></i>
+        <p>Dashboard</p>
+      </sidebar-link>
       <sidebar-link to="/admin/estuary-deployer">
           <i class="nc-icon nc-notes"></i>
-          <p>Deployer</p>
+          <p>Deployments</p>
       </sidebar-link>
       <sidebar-link to="/admin/estuary-testrunner">
         <i class="nc-icon nc-notes"></i>
-        <p>TestRunner</p>
+        <p>Tests</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">
-      <top-navbar></top-navbar>
+<!--      <top-navbar></top-navbar>-->
 
       <dashboard-content @click="toggleSidebar">
 
       </dashboard-content>
 
-      <content-footer></content-footer>
+<!--      <content-footer></content-footer>-->
     </div>
   </div>
 </template>

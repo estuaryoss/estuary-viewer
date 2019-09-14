@@ -4,10 +4,10 @@ exports.config = {
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: ['../specs/*Spec.js'],
     baseUrl: 'http://estuary-viewer:8080', //docker compose
-    // baseUrl: 'http://10.10.1.1:8080',
+    // baseUrl: 'http://localhost:8090',
     SELENIUM_PROMISE_MANAGER : false,
     multiCapabilities: [
-        // {'browserName': 'firefox'}
-        {'browserName': 'chrome'},
+        {'browserName': 'firefox'},
+        {'browserName': 'chrome'}
     ]
 };
