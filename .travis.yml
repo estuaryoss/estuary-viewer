@@ -35,6 +35,7 @@ script:
     --header 'Accept:application/json'
     --header 'Content-Type:text/plain'
     --data 'sleep 1\nsleep 2\nsleep 3600'"
+  - sleep 20
   - docker exec estuary-viewer sh -c "cd /home/node/app/; npm test"
   - docker ps
 
