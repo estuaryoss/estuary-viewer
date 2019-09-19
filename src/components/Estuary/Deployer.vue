@@ -107,6 +107,7 @@
         activeDeployments: null,
         data() {
             return {
+                refreshTimer: 10000,
                 items: [],
                 activeDeployments: [],
                 fields: [
@@ -144,7 +145,7 @@
             this.items = this.loadData();
             this.interval = setInterval(function () {
                 this.items = this.loadData();
-            }.bind(this), 10000);
+            }.bind(this), this.refreshTimer);
         },
         mounted() {
             // Set the initial number of items
@@ -156,7 +157,7 @@
                 axios({
                     method: 'get',
                     url: "http://" + item.ip_port + "/deploylogs/" + item.id,
-                    timeout: 2000, // Let's say you want to wait at least 8 seconds
+                    timeout: 2000,
                 }).then(function (response) {
                     vm.infoModal.content = response.data.message;
                 });
@@ -193,44 +194,18 @@
                     return response.data.message;
                 });
             },
-            loadDeployerApps: function () {
-                let test_runner_apps = [];
-                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/geteurekaapps";
-                return this.apiServiceGet(url)
-                    .then(response => {
-                        let keys_list = Object.keys(response);
-                        for (let i = 0; i < keys_list.length; i++) {
-                            if (keys_list[i].includes("deployer")) {
-                                for (let j = 0; j < response[keys_list[i]].length; j++) {
-                                    test_runner_apps.push(response[keys_list[i]][j])
-                                }
-                            }
-                        }
-                        return test_runner_apps;
-                    }).catch(function (error) {
-                        console.log("Could not get a response from estuary-discovery: " + url)
-                    });
-            },
             loadData: function () {
                 let table_list = [];
-                this.loadDeployerApps().then(response => {
-                    let test_runner_list = response;
-                    for (let i = 0; i < test_runner_list.length; i++) {
-                        let ip_port = test_runner_list[i].ip + ":" + test_runner_list[i].port;
-                        let url = "http://" + ip_port + "/getdeploymentinfo"
-                        this.apiServiceGet(url)
-                            .then(response => {
-                                for (let j = 0; j < response.length; j++) {
-                                    response[j]._rowVariant = "success";
-                                    response[j].ip_port = ip_port;
-                                    table_list.push(response[j]);
-                                }
-                            }).catch(function (error) {
-                            console.log("Could not get a response from estuary-testrunner: " + url);
-                        });
-                    }
-                }).catch(function (error) {
-                    console.log("Something bad happened when calling /gettestinfo endpoint");
+                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/getdeployments";
+                this.apiServiceGet(url)
+                    .then(response => {
+                        for (let i = 0; i < response.length; i++) {
+                            response[i].commands = JSON.stringify(response[i].commands);
+                            response[i]._rowVariant = "success";
+                            table_list.push(response[i]);
+                        }
+                    }).catch(function (error) {
+                    console.log("Could not get a response from: " + url)
                 });
                 return table_list;
             },

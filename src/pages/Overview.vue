@@ -187,23 +187,14 @@
                 return this.loadApps("discovery");
             },
             loadTotalDeployments: async function () {
-                let deployersList = this.loadDeployersTotal();
-                let activeDeployments = [];
-                for (let i = 0; i < deployersList.length; i++) {
-                    let deployments = await this.apiServiceGet("http://" + deployersList[i].ip + ":" + deployersList[i].port + "/getdeploymentinfo");
-                    for (let j = 0; j < deployments.length; j++) {
-                        activeDeployments.push(deployments[j]);
-                    }
-                }
-                return activeDeployments;
+                return await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/getdeployments");
             },
             loadTotalTestsRunning: async function () {
-                let testRunnerList = this.loadTestRunnersTotal();
+                let testsList= await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/gettests");
                 let activeTests = [];
-                for (let i = 0; i < testRunnerList.length; i++) {
-                    let testinfo = await this.apiServiceGet("http://" + testRunnerList[i].ip + ":" + testRunnerList[i].port + "/gettestinfo");
-                    if (testinfo.started == "true") {
-                        activeTests.push(testinfo);
+                for (let i = 0; i < testsList.length; i++) {
+                    if (testsList[i].started == "true") {
+                        activeTests.push(testsList[i]);
                     }
                 }
                 return activeTests;

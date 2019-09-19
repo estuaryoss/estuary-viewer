@@ -94,6 +94,7 @@
         name: "TestRunner",
         data() {
             return {
+                refreshTimer: 10000,
                 items: [],
                 fields: [
                     {key: 'id', label: 'Test_Id', sortable: true, sortDirection: 'desc'},
@@ -133,7 +134,7 @@
             this.items = this.loadData();
             this.interval = setInterval(function () {
                 this.items = this.loadData();
-            }.bind(this), 15000);
+            }.bind(this), this.refreshTimer);
         },
         mounted() {
             this.totalRows = this.items.length;
@@ -178,44 +179,18 @@
                     return response.data.message;
                 });
             },
-            loadTestRunnerApps: function () {
-                let test_runner_apps = [];
-                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/geteurekaapps";
-                return this.apiServiceGet(url)
-                    .then(response => {
-                        let keys_list = Object.keys(response);
-                        for (let i = 0; i < keys_list.length; i++) {
-                            if (keys_list[i].includes("testrunner")) {
-                                for (let j = 0; j < response[keys_list[i]].length; j++) {
-                                    test_runner_apps.push(response[keys_list[i]][j])
-                                }
-                            }
-                        }
-                        return test_runner_apps;
-                    }).catch(function (error) {
-                        console.log("Could not get a response from estuary-discovery: " + url)
-                    });
-            },
             loadData: function () {
                 let table_list = [];
-                this.loadTestRunnerApps().then(response => {
-                    let test_runner_list = response;
-                    for (let i = 0; i < test_runner_list.length; i++) {
-                        let ip_port = test_runner_list[i].ip + ":" + test_runner_list[i].port;
-                        let url = "http://" + ip_port + "/gettestinfo"
-                        this.apiServiceGet(url)
-                            .then(response => {
-                                // alert(JSON.stringify(response));
-                                response.commands = JSON.stringify(response.commands);
-                                response._rowVariant = "success";
-                                response.ip_port = ip_port;
-                                table_list.push(response);
-                            }).catch(function (error) {
-                            console.log("Could not get a response from estuary-testrunner: " + url)
-                        });
-                    }
-                }).catch(function (error) {
-                    console.log("Something bad happened when calling /gettestinfo endpoint");
+                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/gettests";
+                this.apiServiceGet(url)
+                    .then(response => {
+                        for (let i = 0; i < response.length; i++) {
+                            response[i].commands = JSON.stringify(response[i].commands);
+                            response[i]._rowVariant = "success";
+                            table_list.push(response[i]);
+                        }
+                    }).catch(function (error) {
+                    console.log("Could not get a response from: " + url)
                 });
                 return table_list;
             }

@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: estuary-viewer-ingress
+  namespace: default
+  annotations:
+#    kubernetes.io/ingress.class: nginx
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: estuary-viewer.com #this is the k8s ingress host. add an etc/hosts entry 127.0.0.1 to work
+      http:
+        paths:
+          - path: /geteurekaapps
+            backend:
+              serviceName: estuary-discovery
+              servicePort: 8080
+          - path: /gettests
+            backend:
+              serviceName: estuary-discovery
+              servicePort: 8080
+          - path: /getdeployments
+            backend:
+              serviceName: estuary-discovery
+              servicePort: 8080
+          - path: /teststart
+            backend:
+              serviceName: estuary-testrunner
+              servicePort: 8080
+          - path: /gettestinfo
+            backend:
+              serviceName: estuary-testrunner
+              servicePort: 8080
