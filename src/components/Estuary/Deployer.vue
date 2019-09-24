@@ -113,7 +113,7 @@
                 fields: [
                     {key: 'id', label: 'Deployment_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'containers', label: 'Containers', sortable: true, class: 'text-center'},
-                    {key: 'ip_port', label: 'Ip_Port', sortable: true, sortDirection: 'desc'},
+                    {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'actions', label: 'Actions'}
                 ],
                 totalRows: 1,

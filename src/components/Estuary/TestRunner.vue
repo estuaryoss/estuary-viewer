@@ -102,7 +102,7 @@
                     {key: 'finished', label: 'Finished', sortable: true, sortDirection: 'desc'},
                     {key: 'commands', label: 'Commands', sortable: true, sortDirection: 'desc'},
                     {key: 'processes', label: 'Processes', sortable: true, sortDirection: 'desc'},
-                    {key: 'ip_port', label: 'Ip_Port', sortable: true, sortDirection: 'desc'},
+                    {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'progress', label: 'Test_Progress'}
                 ],
                 totalRows: 1,
