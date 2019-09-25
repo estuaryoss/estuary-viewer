@@ -40,8 +40,4 @@ script:
   - docker exec estuary-viewer sh -c "cd /home/node/app/; npm test"
   - docker ps
 
-after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push dinutac/estuary-viewer:latest
-
 

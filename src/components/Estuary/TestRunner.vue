@@ -1,6 +1,13 @@
 <template>
   <b-container fluid>
     <!-- User Interface controls -->
+    <div>
+      <download-csv
+        :data="items">
+        Download tests csv
+        <img src="../../../public/img/icons/favicon-16x16.png">
+      </download-csv>
+    </div>
     <b-row>
 
       <b-col md="6" class="my-1">
@@ -40,18 +47,20 @@
     <!-- Main table element -->
     <b-table
       show-empty
+      small
       stacked="md"
       :items="items"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
+      :filterIncludedFields="filterOn"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
-      <template slot="progress" slot-scope="row">
+      <template v-slot:cell(progress)="row">
         <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
           <b-progress-bar :value="getTestStatus(row.item).finished" variant="success" v-b-tooltip.hover
                           title="finished"></b-progress-bar>
@@ -62,7 +71,7 @@
         </b-progress>
       </template>
 
-      <template slot="row-details" slot-scope="row">
+      <template v-slot:row-details="row">
         <b-card>
           {{row.item}}
         </b-card>
@@ -88,7 +97,11 @@
 </template>
 
 <script>
-    import * as axios from "axios";
+    import Vue from 'vue'
+    import * as axios from "axios"
+    import JsonCSV from 'vue-json-csv'
+
+    Vue.component('downloadCsv', JsonCSV);
 
     export default {
         name: "TestRunner",
@@ -113,6 +126,7 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
+                filterOn: [],
                 infoModal: {
                     id: 'modal-tall',
                     title: '',

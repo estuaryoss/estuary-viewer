@@ -1,5 +1,12 @@
 <template>
   <b-container fluid>
+    <div>
+      <download-csv
+        :data="items">
+        Download deployments csv
+        <img src="../../../public/img/icons/favicon-16x16.png">
+      </download-csv>
+    </div>
     <!-- User Interface controls -->
     <b-row>
       <b-col md="6" class="my-1">
@@ -49,22 +56,24 @@
     <!-- Main table element -->
     <b-table
       show-empty
+      small
       stacked="md"
       :items="items"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
+      :filterIncludedFields="filterOn"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
-      <template slot="name" slot-scope="row">
+      <template v-slot:cell(name)="row">
         {{ row.TestType }}
       </template>
 
-      <template slot="actions" slot-scope="row">
+      <template v-slot:cell(actions)="row">
         <b-button size="sm" @click="row.toggleDetails" class="details">
           {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
         </b-button>
@@ -73,7 +82,7 @@
         </b-button>
       </template>
 
-      <template slot="row-details" slot-scope="row">
+      <template v-slot:row-details="row">
         <b-card>
           {{row.item}}
         </b-card>
@@ -99,7 +108,11 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import * as axios from "axios";
+    import JsonCSV from 'vue-json-csv'
+
+    Vue.component('downloadCsv', JsonCSV);
 
     export default {
 
@@ -124,6 +137,7 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
+                filterOn: [],
                 infoModal: {
                     id: 'info-modal',
                     title: '',
