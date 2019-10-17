@@ -170,7 +170,7 @@
                 var vm = this;
                 axios({
                     method: 'get',
-                    url: "http://" + item.ip_port + "/deploylogs/" + item.id,
+                    url: "http://" + item.ip_port + "/docker/deploylogs/" + item.id,
                     timeout: 2000,
                 }).then(function (response) {
                     vm.infoModal.content = response.data.message;
