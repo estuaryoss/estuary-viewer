@@ -25,7 +25,7 @@ before_script:
 script:
   - docker-compose -f docker-compose-entire_stack.yml pull
   - docker-compose -f docker-compose-entire_stack.yml up -d
-  - sleep 60
+  - sleep 90
   - docker ps
   #  - generate 2 deployments and 1 test run
   - docker exec -ti estuary-viewer bash -c "curl -i http://estuary-deployer:8080/docker/deploystart/alpine.yml/variables.yml"
