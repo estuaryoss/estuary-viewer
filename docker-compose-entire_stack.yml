@@ -37,18 +37,6 @@ services:
     expose:
       - "8080"
 
-#  estuary-testrunner2:
-#    image: dinutac/estuary-testrunner:latest
-#    hostname: estuary-testrunner2
-#    #    entrypoint: tail -f /etc/alpine-release
-#    command: bash -c "/home/dev/scripts/wait-for-it.sh eureka-server:8080 -- echo \"eureka running\" && sleep 45 && python3 /home/dev/scripts/main_flask.py"
-#    environment:
-#      limit: 'sky' #example env var inserted. you can read it with environ('limit') in your jinja2 template
-#      EUREKA_SERVER: http://eureka-server:8080/eureka/v2 #your eureka server
-#      APP_IP_PORT: estuary-testrunner2:8080 #your app details: where it is and on which port. needed for service discovery and spread of tests from the test client
-#    expose:
-#      - "8080"
-
   estuary-discovery:
     image: dinutac/estuary-discovery:latest
     hostname: estuary-discovery
@@ -57,6 +45,8 @@ services:
       limit: 'sky' #example env var inserted. you can read it with environ('limit') in your jinja2 template
       EUREKA_SERVER: http://eureka-server:8080/eureka/v2 #your eureka server
       APP_IP_PORT: estuary-discovery:8080 #your app details: where it is and on which port. needed for service discovery and spread of tests from the test client
+#    ports:
+#      - "8091:8080"
     expose:
       - "8080"
 
@@ -78,47 +68,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # works on win also as long as you don't enable tcp daemon on 2375/2376
     expose:
       - "8080"
-#
-#  estuary-deployer2:
-#    image: dinutac/estuary-deployer:latest
-#    hostname: estuary-deployer2
-#    #    entrypoint: tail -f /etc/alpine-release
-#    environment:
-#      limit: 'sky' # example env var inserted. you can read it with environ('limit')
-#      MAX_DEPLOYMENTS: 3 # how many deployments to be done. Useful for VMs where user knows how much resources a docker-compose env use.
-#      MAX_DEPLOY_MEMORY: 80 # % from total. tune this parameter after you measure how much a docker compose env consumes. E.g. 16 GB memory => docker will still compose new env if less than ~13.)
-#      #for eureka registering
-#      EUREKA_SERVER: http://eureka-server:8080/eureka/v2 #your eureka server
-#      APP_APPEND_ID: SR # this suffix will be added to the deployer service in order to differentiate between different services mapped on VM with specific resources
-#      APP_IP_PORT: estuary-deployer2:8080 #your app details: where it is and on which port. needed for service discovery and spread of tests from the test client
-#    #    entrypoint: python3 /home/dev/scripts/main_flask.py
-#    command: bash -c "/home/dev/scripts/wait-for-it.sh eureka-server:8080 -- echo \"eureka running\" && sleep 45 && python3 /home/dev/scripts/main_flask.py"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock # works on win also as long as you don't enable tcp daemon on 2375/2376
-#    expose:
-#      - "8080"
-#
-#  estuary-deployer3:
-#    image: dinutac/estuary-deployer:latest
-#    hostname: estuary-deployer3
-#    #    entrypoint: tail -f /etc/alpine-release
-#    environment:
-#      limit: 'sky' # example env var inserted. you can read it with environ('limit')
-#      MAX_DEPLOYMENTS: 3 # how many deployments to be done. Useful for VMs where user knows how much resources a docker-compose env use.
-#      MAX_DEPLOY_MEMORY: 80 # % from total. tune this parameter after you measure how much a docker compose env consumes. E.g. 16 GB memory => docker will still compose new env if less than ~13.)
-#      #for eureka registering
-#      EUREKA_SERVER: http://eureka-server:8080/eureka/v2 #your eureka server
-#      #      APP_APPEND_ID: SR # this suffix will be added to the deployer service in order to differentiate between different services mapped on VM with specific resources
-#      APP_IP_PORT: estuary-deployer3:8080 #your app details: where it is and on which port. needed for service discovery and spread of tests from the test client
-#    #    entrypoint: python3 /home/dev/scripts/main_flask.py
-#    command: bash -c "/home/dev/scripts/wait-for-it.sh eureka-server:8080 -- echo \"eureka running\" && sleep 45 && python3 /home/dev/scripts/main_flask.py"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock # works on win also as long as you don't enable tcp daemon on 2375/2376
-#    expose:
-#      - "8080"
 
   eureka-server:
-    image: dinutac/netflixoss-eureka:1.9.13
+    image: dinutac/netflixoss-eureka:1.9.15
     hostname: eureka-server
 #    ports:
 #      - "8080:8080"
@@ -128,6 +80,9 @@ services:
   estuary-viewer:
     image: dinutac/estuary-viewer:latest
     hostname: estuary-viewer
+    entrypoint: bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary-discovery:8080 > /home/node/app/.env; /home/node/app/start.sh"
     container_name: estuary-viewer
+#    ports:
+#      - "8091:8080"
     expose:
       - "8080"

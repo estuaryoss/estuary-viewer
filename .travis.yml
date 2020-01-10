@@ -20,19 +20,20 @@ deploy:
 before_script:
   - npm install
   - npm run build
-  - docker build . -t dinutac/estuary-viewer:latest
+  - docker pull alpine:3.9.4
 
 script:
   - docker-compose -f docker-compose-entire_stack.yml pull
+  - docker build . -t dinutac/estuary-viewer:latest
   - docker-compose -f docker-compose-entire_stack.yml up -d
   - sleep 90
   - docker ps
   #  - generate 2 deployments and 1 test run
-  - docker exec -ti estuary-viewer bash -c "curl -i http://estuary-deployer:8080/docker/deploystart/alpine.yml/variables.yml"
-  - docker exec -ti estuary-viewer bash -c "curl -i http://estuary-deployer:8080/docker/deploystart/alpine.yml/variables.yml"
+  - docker exec -ti estuary-viewer bash -c "curl -i --request POST http://estuary-deployer:8080/docker/deployments/alpine.yml/variables.yml"
+  - docker exec -ti estuary-viewer bash -c "curl -i --request POST http://estuary-deployer:8080/docker/deployments/alpine.yml/variables.yml"
   - docker exec -ti estuary-viewer bash -c "
     curl -i
-    --request POST 'http://estuary-testrunner:8080/teststart/100'
+    --request POST 'http://estuary-testrunner:8080/test/100'
     --header 'Accept:application/json'
     --header 'Content-Type:text/plain'
     --data 'sleep 1\nsleep 2\nsleep 3600'"

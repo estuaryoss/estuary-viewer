@@ -170,7 +170,7 @@
                 var vm = this;
                 axios({
                     method: 'get',
-                    url: "http://" + item.ip_port + "/docker/deploylogs/" + item.id,
+                    url: "http://" + item.ip_port + "/docker/deployments/logs/" + item.id,
                     timeout: 2000,
                 }).then(function (response) {
                     vm.infoModal.content = response.data.message;
@@ -210,7 +210,7 @@
             },
             loadData: function () {
                 let table_list = [];
-                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/getdeployments";
+                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments";
                 this.apiServiceGet(url)
                     .then(response => {
                         for (let i = 0; i < response.length; i++) {

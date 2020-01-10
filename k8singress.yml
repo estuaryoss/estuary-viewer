@@ -5,29 +5,25 @@ metadata:
   namespace: default
   annotations:
 #    kubernetes.io/ingress.class: nginx
-#    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: estuary-viewer.com #this is the k8s ingress host. add an etc/hosts entry 127.0.0.1 to work
       http:
         paths:
-          - path: /geteurekaapps
+          - path: /eurekaapps
             backend:
               serviceName: estuary-discovery
               servicePort: 8080
-          - path: /gettests
+          - path: /tests
             backend:
               serviceName: estuary-discovery
               servicePort: 8080
-          - path: /getdeployments
+          - path: /deployments
             backend:
               serviceName: estuary-discovery
               servicePort: 8080
-          - path: /teststart
-            backend:
-              serviceName: estuary-testrunner
-              servicePort: 8080
-          - path: /gettestinfo
+          - path: /test
             backend:
               serviceName: estuary-testrunner
               servicePort: 8080
