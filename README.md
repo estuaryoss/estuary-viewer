@@ -11,6 +11,7 @@ View your deployments and tests.
 
 ## Build
 [![Build Status](https://travis-ci.org/dinuta/estuary-viewer.svg?branch=master)](https://travis-ci.org/dinuta/estuary-viewer)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/00539cc6a6104c03b5f7939bd85cd080)](https://www.codacy.com/manual/dinuta/estuary-viewer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dinuta/estuary-viewer&amp;utm_campaign=Badge_Grade)
 
 Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-light-bootstrap-dashboard.git
 
