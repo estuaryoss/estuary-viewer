@@ -172,6 +172,9 @@
                     method: 'get',
                     url: "http://" + item.ip_port + "/docker/deployments/logs/" + item.id,
                     timeout: 2000,
+                    headers: {
+                      Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
+                    }
                 }).then(function (response) {
                     vm.infoModal.content = response.data.message;
                 });
@@ -204,7 +207,13 @@
                 this.currentPage = 1;
             },
             apiServiceGet: function (url) {
-                return axios({method: 'get', url: url}).then((response) => {
+                return axios({
+                method: 'get',
+                url: url,
+                headers: {
+                  Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
+                }
+                }).then((response) => {
                     return response.data.message;
                 });
             },

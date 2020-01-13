@@ -17,12 +17,23 @@ Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-ligh
 
 <h1 align="center"><img src="./docs/images/dash_viewer.png" alt="Testing as a service with Docker"></h1>
 
-## Docker run
-    docker run -p 8080:8080 dinutac/estuary-viewer:latest \
-    bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary_discovery_ip:estuary_discovery_port > /home/node/app/.env; /home/node/app/start.sh"
+## Docker run - wo auth token
+Default token is 'None' for no http auth
+```shell script
+docker run -p 8080:8080 dinutac/estuary-viewer:latest \
+bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary_discovery_ip:estuary_discovery_port > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env;/home/node/app/start.sh"
 
-    E.g.:
-    docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=192.168.100.8:8080 > /home/node/app/.env; /home/node/app/start.sh"
+```
+
+E.g.:
+```shell script
+docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
+```
+
+## Docker run - with auth token
+```shell script
+docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
+```
 
 ## Estuary stack
 [Estuary deployer](https://github.com/dinuta/estuary-deployer)
