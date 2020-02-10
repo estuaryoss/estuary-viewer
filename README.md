@@ -36,7 +36,7 @@ docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTU
 ```
 
 ## Estuary stack
-[Estuary deployer](https://github.com/dinuta/estuary-deployer)
-[Estuary testrunner](https://github.com/dinuta/estuary-testrunner)
-[Estuary discovery](https://github.com/dinuta/estuary-discovery)
-[Estuary viewer](https://github.com/dinuta/estuary-viewer)
+[Estuary deployer](https://github.com/dinuta/estuary-deployer)  
+[Estuary testrunner](https://github.com/dinuta/estuary-testrunner)  
+[Estuary discovery](https://github.com/dinuta/estuary-discovery)  
+[Estuary viewer](https://github.com/dinuta/estuary-viewer)  
