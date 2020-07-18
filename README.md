@@ -7,7 +7,8 @@ Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img s
 View your deployments and tests.
 
 ## Docker Hub
-[![](https://images.microbadger.com/badges/image/dinutac/estuary-viewer.svg)](https://microbadger.com/images/dinutac/estuary-viewer "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/dinutac/estuary-viewer.svg)](https://microbadger.com/images/dinutac/estuary-viewer "Get your own version badge on microbadger.com") ![](https://img.shields.io/docker/pulls/dinutac/estuary-viewer.svg)
+
+[viewer](https://hub.docker.com/r/dinutac/estuary-viewer) ![](https://img.shields.io/docker/pulls/dinutac/estuary-viewer.svg)
 
 ## Build
 [![Build Status](https://travis-ci.org/dinuta/estuary-viewer.svg?branch=master)](https://travis-ci.org/dinuta/estuary-viewer)
