@@ -176,7 +176,7 @@
                       Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
                     }
                 }).then(function (response) {
-                    vm.infoModal.content = response.data.message;
+                    vm.infoModal.content = response.data.description;
                 });
 
                 this.infoModal.title = "Compose id: " + item.id;
@@ -214,7 +214,7 @@
                   Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
                 }
                 }).then((response) => {
-                    return response.data.message;
+                    return response.data.description;
                 });
             },
             loadData: function () {

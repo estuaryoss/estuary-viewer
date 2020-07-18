@@ -196,7 +196,7 @@
                   Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
                 }
                 }).then((response) => {
-                    return response.data.message;
+                    return response.data.description;
                 });
             },
             loadData: function () {

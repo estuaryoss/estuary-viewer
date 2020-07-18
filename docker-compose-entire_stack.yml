@@ -26,7 +26,7 @@ services:
       - HUB_PORT=4444
 
   estuary-testrunner:
-    image: dinutac/estuary-testrunner:4.0.3
+    image: dinutac/estuary-testrunner:latest
     hostname: estuary-testrunner
     #    entrypoint: tail -f /etc/alpine-release
     command: bash -c "sleep 45 && /scripts/main_flask.py"

@@ -181,7 +181,7 @@
                     if (undefined == response) {
                         return {};
                     }
-                    return response.data.message;
+                    return response.data.description;
                 });
             },
             loadTestRunnersTotal: function () {
