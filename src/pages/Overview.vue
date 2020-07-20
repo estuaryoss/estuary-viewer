@@ -200,7 +200,7 @@
                 let testsList= await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/tests");
                 let activeTests = [];
                 for (let i = 0; i < testsList.length; i++) {
-                    if (testsList[i].started == "true") {
+                    if (testsList[i].started == true) {
                         activeTests.push(testsList[i]);
                     }
                 }
