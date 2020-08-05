@@ -25,5 +25,5 @@ spec:
               servicePort: 8080
           - path: /test
             backend:
-              serviceName: estuary-testrunner
+              serviceName: estuary-agent
               servicePort: 8080

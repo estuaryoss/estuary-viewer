@@ -16,10 +16,10 @@
           <p>
             View your active deployments and tests for estuary services :
             <a href="https://github.com/dinuta/estuary-deployer">estuary-deployer</a> &
-            <a href="https://github.com/dinuta/estuary-testrunner">estuary-testrunner</a>
+            <a href="https://github.com/dinuta/estuary-agent">estuary-agent</a>
           </p>
           <b-button variant="info" href="#/admin/estuary-deployer">Deployer</b-button>
-          <b-button variant="info" href="#/admin/estuary-testrunner">TestRunner</b-button>
+          <b-button variant="info" href="#/admin/estuary-agent">Agent</b-button>
         </b-jumbotron>
       </div>
     </div>

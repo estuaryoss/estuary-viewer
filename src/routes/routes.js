@@ -5,7 +5,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 // Admin pages
 import Overview from 'src/pages/Overview.vue'
 import Deployer from "../components/Estuary/Deployer";
-import TestRunner from "../components/Estuary/TestRunner";
+import Agent from "../components/Estuary/Agent";
 
 
 const routes = [
@@ -30,9 +30,9 @@ const routes = [
         component: Deployer
       },
       {
-        path: 'estuary-testrunner',
-        name: 'Estuary TestRunner',
-        component: TestRunner
+        path: 'estuary-agent',
+        name: 'Estuary Agent',
+        component: Agent
       }
       // ,
       // {

@@ -39,7 +39,7 @@ script:
   - docker exec -ti estuary-viewer bash -c "curl -i --request POST http://estuary-deployer:8080/docker/deployments/alpine.yml/variables.yml"
   - docker exec -ti estuary-viewer bash -c "
     curl -i
-    --request POST 'http://estuary-testrunner:8080/test/100'
+    --request POST 'http://estuary-agent:8080/test/100'
     --header 'Accept:application/json'
     --header 'Content-Type:text/plain'
     --data 'sleep 1\nsleep 2\nsleep 3600'"

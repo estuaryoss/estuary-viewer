@@ -10,7 +10,7 @@
           <i class="nc-icon nc-notes"></i>
           <p>Deployments</p>
       </sidebar-link>
-      <sidebar-link to="/admin/estuary-testrunner">
+      <sidebar-link to="/admin/estuary-agent">
         <i class="nc-icon nc-notes"></i>
         <p>Tests</p>
       </sidebar-link>

@@ -5,7 +5,7 @@ class Dashboard {
   constructor() {
     this.basePage = BasePage;
     this.deployersTotal = element(by.id('deployers-total')).element(by.className('card-title'));
-    this.testRunnersTotal = element(by.id('testrunners-total')).element(by.className('card-title'));
+    this.agentsTotal = element(by.id('agents-total')).element(by.className('card-title'));
     this.discoveryTotal = element(by.id('discovery-total')).element(by.className('card-title'));
     this.chart = element(by.id('stack-barchart')).element(by.className('card-title'));
     this.chartActiveDeployments= element.all(by.className('ct-bar')).get(0);
@@ -44,7 +44,7 @@ class Dashboard {
 
   async getTestRunnersTotal() {
     await this.sleep(this.timeout.m);
-    return this.testRunnersTotal.getText().then(result => {
+    return this.agentsTotal.getText().then(result => {
       return parseInt(result);
     });
   }

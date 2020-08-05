@@ -23,16 +23,16 @@
             <div slot="header" class="icon-danger">
               <i class="nc-icon nc-vector text-danger"></i>
             </div>
-            <div slot="content" id="testrunners-total">
-              <p class="card-category">Estuary TestRunner(s)</p>
-              <h4 class="card-title">{{testRunnersTotal.length}}</h4>
+            <div slot="content" id="agents-total">
+              <p class="card-category">Estuary Agent(s)</p>
+              <h4 class="card-title">{{ agentsTotal.length }}</h4>
             </div>
             <div slot="footer">
               <i class="fa fa-clock-o"></i>Refresh unit: {{refreshTimer/1000}} sec
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="testrunners-total">{{testRunnersTotal}}</b-tooltip>
+        <b-tooltip target="agents-total">{{ agentsTotal }}</b-tooltip>
 
         <div class="col-xl-3 col-md-6">
           <stats-card>
@@ -92,7 +92,7 @@
             return {
                 eurekaApps: {},
                 deployersTotal: [],
-                testRunnersTotal: [],
+                agentsTotal: [],
                 discoveryTotal: [],
                 refreshTimer: 10000,
                 loaded: false,
@@ -135,7 +135,7 @@
         methods: {
             loadData: async function () {
                 this.eurekaApps = await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
-                this.testRunnersTotal = this.loadTestRunnersTotal();
+                this.agentsTotal = this.loadTestRunnersTotal();
                 this.deployersTotal = this.loadDeployersTotal();
                 this.discoveryTotal = this.loadDiscoveryTotal();
             },
@@ -185,7 +185,7 @@
                 });
             },
             loadTestRunnersTotal: function () {
-                return this.loadApps("testrunner");
+                return this.loadApps("agent");
             },
             loadDeployersTotal: function () {
                 return this.loadApps("deployer");

@@ -1,8 +1,8 @@
 {
   "name": "estuary-viewer",
-  "version": "1.0.0",
+  "version": "4.0.7",
   "private": true,
-  "description": "Viewer for estuary services",
+  "description": "Viewer for estuary stack",
   "author": "catalin dinuta <constantin.dinuta@gmail.com",
   "scripts": {
     "start": "npm run serve",

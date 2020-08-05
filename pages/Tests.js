@@ -17,7 +17,7 @@ class Tests {
       'xxl': 15000
     };
 
-    this.url = '/#/admin/estuary-testrunner';
+    this.url = '/#/admin/estuary-agent';
     this.pageLoaded = this.basePage.inDom($('.input-group'));
   }
 

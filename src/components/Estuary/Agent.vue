@@ -104,7 +104,7 @@
     Vue.component('downloadCsv', JsonCSV);
 
     export default {
-        name: "TestRunner",
+        name: "Agent",
         data() {
             return {
                 refreshTimer: 10000,

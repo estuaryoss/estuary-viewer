@@ -1,6 +1,6 @@
 <h1 align="center"><img src="./docs/images/banner_estuary.png" alt="Testing as a service with Docker"></h1>
 
-Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img src="https://pbs.twimg.com/profile_images/1145724063106519040/b1L98qh9_400x400.jpg" height="40" width="40" align="center"></a>
+Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img src="https://lh3.googleusercontent.com/Y2_nyEd0zJftXnlhQrWoweEvAy4RzbpDah_65JGQDKo9zCcBxHVpajYgXWFZcXdKS_o=s180-rw" height="40" width="40" align="center"></a>
 
 # Testing as a Service
 ## Estuary viewer
@@ -37,7 +37,7 @@ docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTU
 ```
 
 ## Estuary stack
-[Estuary deployer](https://github.com/dinuta/estuary-deployer)  
-[Estuary testrunner](https://github.com/dinuta/estuary-testrunner)  
-[Estuary discovery](https://github.com/dinuta/estuary-discovery)  
-[Estuary viewer](https://github.com/dinuta/estuary-viewer)  
+[Estuary deployer](https://github.com/dinuta/estuary-deployer)
+[Estuary agent](https://github.com/dinuta/estuary-agent)
+[Estuary discovery](https://github.com/dinuta/estuary-discovery)
+[Estuary viewer](https://github.com/dinuta/estuary-viewer)
