@@ -4,8 +4,9 @@ import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
 import Overview from 'src/pages/Overview.vue'
-import Deployer from "../components/Estuary/Deployer";
-import Agent from "../components/Estuary/Agent";
+import Deployer from "@/components/Estuary/Deployer";
+import Agent from "@/components/Estuary/Agent";
+import Discovery from "@/components/Estuary/Discovery";
 
 
 const routes = [
@@ -33,6 +34,11 @@ const routes = [
         path: 'estuary-agent',
         name: 'Estuary Agent',
         component: Agent
+      },
+      {
+        path: 'estuary-discovery',
+        name: 'Estuary Discovery',
+        component: Discovery
       }
       // ,
       // {
@@ -68,14 +74,14 @@ const routes = [
       // }
     ]
   },
-  { path: '*', component: NotFound }
+  {path: '*', component: NotFound}
 ]
 
 /**
  * Asynchronously load view (Webpack Lazy loading compatible)
  * The specified component must be inside the Views folder
  * @param  {string} name  the filename (basename) of the view to load.
-function view(name) {
+ function view(name) {
    var res= require('../components/Dashboard/Views/' + name + '.vue');
    return res;
 };**/

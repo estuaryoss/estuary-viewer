@@ -14,6 +14,10 @@
         <i class="nc-icon nc-notes"></i>
         <p>Tests</p>
       </sidebar-link>
+      <sidebar-link to="/admin/estuary-discovery">
+        <i class="nc-icon nc-notes"></i>
+        <p>Eureka Apps</p>
+      </sidebar-link>
     </side-bar>
     <div class="main-panel">
 <!--      <top-navbar></top-navbar>-->

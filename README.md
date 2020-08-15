@@ -4,7 +4,10 @@ Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img s
 
 # Testing as a Service
 ## Estuary viewer
-View your deployments and tests.
+View live the estuary stack:
+- deployments
+- registered eureka apps
+- test sessions
 
 ## Docker Hub
 
