@@ -10,6 +10,7 @@ class Dashboard {
     this.chart = element(by.id('stack-barchart')).element(by.className('card-title'));
     this.chartActiveDeployments= element.all(by.className('ct-bar')).get(0);
     this.chartActiveTests= element.all(by.className('ct-bar')).get(1);
+    this.chartTotalEurekaApps= element.all(by.className('ct-bar')).get(2);
 
     this.url = "/";
     this.pageLoaded = this.basePage.inDom($('#deployers-total'));
@@ -66,6 +67,13 @@ class Dashboard {
   async getTotalTests() {
     await this.sleep(this.timeout.m);
     return this.chartActiveTests.getText().then(result => {
+      return result;
+    });
+  }
+
+  async getTotalEurekaApps() {
+    await this.sleep(this.timeout.m);
+    return this.chartTotalEurekaApps.getText().then(result => {
       return result;
     });
   }

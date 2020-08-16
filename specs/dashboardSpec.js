@@ -35,11 +35,12 @@ describe('DashBoard', function () {
     await expect(dashboardPage.getChartCardTitle()).toEqual('Estuary stack stats');
   });
 
-  it('chart must have active deployments and tests', async function () {
+  it('chart must have active deployments, tests, total eureka apps', async function () {
     await dashboardPage.goto();
     await dashboardPage.sleep(dashboardPage.timeout.xxl);
     await expect(dashboardPage.getTotalDeployments()).toEqual(''); //cant get data from the canvas, but can check that the bar appeared // TODO?
     await expect(dashboardPage.getTotalTests()).toEqual(''); // cant get data out of canvas, but can check that the bar appeared // TODO?
+    await expect(dashboardPage.getTotalEurekaApps()).toEqual(''); // cant get data out of canvas, but can check that the bar appeared // TODO?
   });
 
 });
