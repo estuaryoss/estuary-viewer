@@ -134,21 +134,21 @@ export default {
   },
   methods: {
     loadData: async function () {
-      this.eurekaApps = await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
-      this.agentsTotal = this.loadTestRunnersTotal();
+      this.eurekaApps = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
+      this.agentsTotal = this.loadAgentsTotal();
       this.deployersTotal = this.loadDeployersTotal();
       this.discoveryTotal = this.loadDiscoveryTotal();
     },
     loadChart: async function () {
       let dataSeries = {
-        labels: ['Active Deployments', 'Tests Running', 'Eureka Apps'],
+        labels: ['Active Deployments', 'Active commands', 'Eureka Apps'],
         series: [
           [0, 0, 0]
         ]
       };
       try {
         let deployments = await this.loadTotalDeployments();
-        let activeTests = await this.loadTotalTestsRunning();
+        let activeTests = await this.loadTotalBackgroundCmdsRunning();
         let activeEurekaApps = await this.loadTotalEurekaApps();
         if (deployments && activeTests) {
           dataSeries.series = [[deployments.length, activeTests.length, activeEurekaApps.length]];
@@ -185,7 +185,7 @@ export default {
           return response.data.description;
         });
     },
-    loadTestRunnersTotal: function () {
+    loadAgentsTotal: function () {
       return this.loadApps("agent");
     },
     loadDeployersTotal: function () {
@@ -195,20 +195,20 @@ export default {
       return this.loadApps("discovery");
     },
     loadTotalDeployments: async function () {
-      return await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments");
+      return await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments");
     },
-    loadTotalTestsRunning: async function () {
-      let testsList = await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/tests");
-      let activeTests = [];
-      for (let i = 0; i < testsList.length; i++) {
-        if (testsList[i].started == true) {
-          activeTests.push(testsList[i]);
+    loadTotalBackgroundCmdsRunning: async function () {
+      let commandsDetachedList = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/commandsdetached");
+      let commandsDetached = [];
+      for (let i = 0; i < commandsDetachedList.length; i++) {
+        if (commandsDetachedList[i].started == true) {
+          commandsDetached.push(commandsDetachedList[i]);
         }
       }
-      return activeTests;
+      return commandsDetached;
     },
     loadTotalEurekaApps: async function () {
-      let eurekaAppsList = await this.apiServiceGet("http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
+      let eurekaAppsList = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
       let activeEurekaApps = [];
       let eureka_apps_keys = Object.keys(eurekaAppsList);
       for (let i = 0; i < eureka_apps_keys.length; i++) {

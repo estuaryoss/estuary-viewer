@@ -80,7 +80,7 @@ services:
   estuary-viewer:
     image: dinutac/estuary-viewer:latest
     hostname: estuary-viewer
-    entrypoint: bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary-discovery:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
+    entrypoint: bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://estuary-discovery:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
     container_name: estuary-viewer
 #    ports:
 #      - "8091:8080"

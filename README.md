@@ -31,16 +31,16 @@ bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary_discovery_ip:estuary_discovery_p
 
 E.g.:
 ```shell script
-docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
+docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
 ```
 
 ## Docker run - with auth token
 ```shell script
-docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
+docker run -p 8080:8080 dinutac/estuary-viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
 ```
 
 ## Estuary stack
-[Estuary deployer](https://github.com/dinuta/estuary-deployer)  
-[Estuary agent](https://github.com/dinuta/estuary-agent)  
-[Estuary discovery](https://github.com/dinuta/estuary-discovery)  
-[Estuary viewer](https://github.com/dinuta/estuary-viewer)  
+[Estuary deployer](https://github.com/dinuta/estuary-deployer)
+[Estuary agent](https://github.com/dinuta/estuary-agent)
+[Estuary discovery](https://github.com/dinuta/estuary-discovery)
+[Estuary viewer](https://github.com/dinuta/estuary-viewer)

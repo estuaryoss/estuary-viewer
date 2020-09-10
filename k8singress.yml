@@ -15,7 +15,7 @@ spec:
             backend:
               serviceName: estuary-discovery
               servicePort: 8080
-          - path: /tests
+          - path: /commandsdetached
             backend:
               serviceName: estuary-discovery
               servicePort: 8080

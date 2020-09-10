@@ -219,7 +219,7 @@
             },
             loadData: function () {
                 let table_list = [];
-                let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments";
+                let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments";
                 this.apiServiceGet(url)
                     .then(response => {
                         for (let i = 0; i < response.length; i++) {

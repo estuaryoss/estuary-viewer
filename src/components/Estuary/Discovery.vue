@@ -168,7 +168,7 @@ export default {
     },
     loadData: function () {
       let table_list = [];
-      let url = "http://" + process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps";
+      let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps";
       this.apiServiceGet(url)
         .then(response => {
           let eureka_apps_keys = Object.keys(response);
