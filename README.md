@@ -25,7 +25,7 @@ Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-ligh
 Default token is 'None' for no http auth
 ```shell script
 docker run -p 8080:8080 dinutac/estuary-viewer:latest \
-bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary_discovery_ip:estuary_discovery_port > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env;/home/node/app/start.sh"
+bash -c "echo VUE_APP_ESTUARY_DISCOVERY=estuary_discovery_ip:http(s)://estuary_discovery_port > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env;/home/node/app/start.sh"
 
 ```
 
