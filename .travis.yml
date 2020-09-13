@@ -30,7 +30,7 @@ before_script:
 
 script:
   - docker-compose -f docker-compose-entire_stack.yml pull
-  - docker build . -t dinutac/estuary-viewer:latest
+  - docker build . -t estuaryoss/viewer:latest
   - docker-compose -f docker-compose-entire_stack.yml up -d
   - sleep 90
   - docker ps
