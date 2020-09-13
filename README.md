@@ -38,7 +38,7 @@ docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_D
 ```
 
 ## Estuary stack
-[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)
-[Estuary agent](https://github.com/estuaryoss/estuary-agent)
-[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)
-[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)
+[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)  
+[Estuary agent](https://github.com/estuaryoss/estuary-agent)  
+[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)  
+[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)  
