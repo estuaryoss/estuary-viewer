@@ -6,7 +6,7 @@ Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img s
 View live the estuary stack:
 -   active deployments on the deployers
 -   registered eureka apps
--   active commands on the agents
+-   active commands running on the agents
 
 ## Docker Hub
 [viewer](https://hub.docker.com/r/estuaryoss/viewer) ![](https://img.shields.io/docker/pulls/estuaryoss/viewer.svg)
