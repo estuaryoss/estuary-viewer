@@ -120,7 +120,7 @@
         activeDeployments: null,
         data() {
             return {
-                refreshTimer: 10000,
+                refreshTimer: 20000,
                 items: [],
                 activeDeployments: [],
                 fields: [

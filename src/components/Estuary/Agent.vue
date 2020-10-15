@@ -73,11 +73,20 @@
 
       <template v-slot:cell(successStatus)="row">
         <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
-          <b-progress-bar :value="getTestProgress(row.item).success" variant="success" v-b-tooltip.hover
-                          title="success"></b-progress-bar>
-          <b-progress-bar :value="getTestProgress(row.item).failure" variant="danger" v-b-tooltip.hover
-                          title="failed"></b-progress-bar>
+          <b-progress-bar :value="getTestProgress(row.item).success.success.length" variant="success" v-b-tooltip.hover
+                          :title="JSON.stringify(getTestProgress(row.item).success)"></b-progress-bar>
+          <b-progress-bar :value="getTestProgress(row.item).failure.failure.length" variant="danger" v-b-tooltip.hover
+                          :title="JSON.stringify(getTestProgress(row.item).failure)"></b-progress-bar>
         </b-progress>
+      </template>
+
+      <template v-slot:cell(actions)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="details">
+          {{ row.detailsShowing ? 'Hide' : 'Show' }} Row
+        </b-button>
+        <b-button size="sm" @click="getCommandsDetails(row.item)" class="mr-1 logs">
+          Command details
+        </b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -116,17 +125,17 @@
         name: "Agent",
         data() {
             return {
-                refreshTimer: 10000,
+                refreshTimer: 20000,
                 items: [],
                 fields: [
                     {key: 'id', label: 'Test_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'started', label: 'Started', sortable: true, class: 'text-center'},
                     {key: 'finished', label: 'Finished', sortable: true, sortDirection: 'desc'},
-                    {key: 'commands', label: 'commands', sortable: true, sortDirection: 'desc'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'progress', label: 'Test_Progress'},
                     {key: 'successStatus', label: 'Status'},
+                    {key: 'actions', label: 'Actions'}
                 ],
                 totalRows: 1,
                 currentPage: 1,
@@ -164,13 +173,24 @@
             this.totalRows = this.items.length;
         },
         methods: {
+            getCommandsDetails(item, button) {
+                var vm = this;
+                vm.infoModal.content = item.commands
+
+                this.infoModal.title = "Details";
+                this.$root.$emit('bv::show::modal', this.infoModal.id, button);
+            },
             getTestProgress(item) {
                 let test_status = {
                     "finished": 0,
                     "scheduled": 0,
                     "inprogress": 0,
-                    "success": 0,
-                    "failure": 0
+                    "success" : {
+                      "success": []
+                    },
+                    "failure" : {
+                      "failure": []
+                    },
                 }
                 let commands = JSON.parse(item.commands);
                 let command_keys = Object.keys(commands);
@@ -184,9 +204,9 @@
                     }
 
                     if (commands[command_keys[i]].details.code === 0) {
-                      test_status["success"]++;
+                      test_status["success"].success.push(command_keys[i]);
                     } else if (commands[command_keys[i]].details.code != 0 && commands[command_keys[i]].details.code != undefined) {
-                      test_status["failure"]++;
+                      test_status["failure"].failure.push(command_keys[i]);
                     }
                  }
                 return test_status;

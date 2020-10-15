@@ -97,7 +97,7 @@ export default {
   name: "Discovery",
   data() {
     return {
-      refreshTimer: 10000,
+      refreshTimer: 20000,
       items: [],
       fields: [
         {key: 'app', label: 'app', sortable: true, sortDirection: 'desc'},
