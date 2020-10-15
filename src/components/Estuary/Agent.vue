@@ -116,6 +116,7 @@
                     {key: 'commands', label: 'Commands', sortable: true, sortDirection: 'desc'},
                     {key: 'processes', label: 'Processes', sortable: true, sortDirection: 'desc'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
+                    {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'progress', label: 'Test_Progress'}
                 ],
                 totalRows: 1,
@@ -199,18 +200,19 @@
                     return response.data.description;
                 });
             },
-            addUrl: function (elem) {
+            getCommandsUrl: function (elem) {
               return elem + "/commandsdetached"
             },
             loadData: function () {
                 let table_list = [];
-                let commands_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addUrl)
-                for (let i = 0; i < commands_list.length; i++) {
-                    let url = commands_list[i]
+                let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+                for (let k = 0; k < discovery_list.length; k++) {
+                    let url = this.getCommandsUrl(discovery_list[k])
                     this.apiServiceGet(url)
                         .then(response => {
                             for (let i = 0; i < response.length; i++) {
                                 response[i].commands = JSON.stringify(response[i].commands);
+                                response[i].discoveryUrl = discovery_list[k];
                                 response[i]._rowVariant = "success";
                                 table_list.push(response[i]);
                             }

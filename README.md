@@ -37,8 +37,14 @@ docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_D
 docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
 ```
 
+## Docker run - aggregating multiple discovery(ies)
+Viewer supports aggregating multiples discovery services. List the discovery services separated by a comma.
+```shell script
+docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080,http://192.168.100.9:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
+```
+
 ## Estuary stack
-[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)  
-[Estuary agent](https://github.com/estuaryoss/estuary-agent)  
-[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)  
-[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)  
+[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)
+[Estuary agent](https://github.com/estuaryoss/estuary-agent)
+[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)
+[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)
