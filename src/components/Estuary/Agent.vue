@@ -62,12 +62,21 @@
     >
       <template v-slot:cell(progress)="row">
         <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
-          <b-progress-bar :value="getTestStatus(row.item).finished" variant="success" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).finished" variant="success" v-b-tooltip.hover
                           title="finished"></b-progress-bar>
-          <b-progress-bar :value="getTestStatus(row.item).inprogress" variant="warning" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).inprogress" variant="warning" v-b-tooltip.hover
                           title="in progress"></b-progress-bar>
-          <b-progress-bar :value="getTestStatus(row.item).scheduled" variant="info" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).scheduled" variant="info" v-b-tooltip.hover
                           title="scheduled"></b-progress-bar>
+        </b-progress>
+      </template>
+
+      <template v-slot:cell(successStatus)="row">
+        <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
+          <b-progress-bar :value="getTestProgress(row.item).success" variant="success" v-b-tooltip.hover
+                          title="success"></b-progress-bar>
+          <b-progress-bar :value="getTestProgress(row.item).failure" variant="danger" v-b-tooltip.hover
+                          title="failed"></b-progress-bar>
         </b-progress>
       </template>
 
@@ -113,11 +122,11 @@
                     {key: 'id', label: 'Test_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'started', label: 'Started', sortable: true, class: 'text-center'},
                     {key: 'finished', label: 'Finished', sortable: true, sortDirection: 'desc'},
-                    {key: 'commands', label: 'Commands', sortable: true, sortDirection: 'desc'},
-                    {key: 'processes', label: 'Processes', sortable: true, sortDirection: 'desc'},
+                    {key: 'commands', label: 'commands', sortable: true, sortDirection: 'desc'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
-                    {key: 'progress', label: 'Test_Progress'}
+                    {key: 'progress', label: 'Test_Progress'},
+                    {key: 'successStatus', label: 'Status'},
                 ],
                 totalRows: 1,
                 currentPage: 1,
@@ -155,23 +164,31 @@
             this.totalRows = this.items.length;
         },
         methods: {
-            getTestStatus(item) {
+            getTestProgress(item) {
                 let test_status = {
                     "finished": 0,
                     "scheduled": 0,
-                    "inprogress": 0
+                    "inprogress": 0,
+                    "success": 0,
+                    "failure": 0
                 }
                 let commands = JSON.parse(item.commands);
                 let command_keys = Object.keys(commands);
                 for (let i = 0; i < command_keys.length; i++) {
-                    if (commands[command_keys[i]]["status"] === "finished") {
+                    if (commands[command_keys[i]].status === "finished") {
                         test_status["finished"]++;
-                    } else if (commands[command_keys[i]]["status"] === "scheduled") {
+                    } else if (commands[command_keys[i]].status === "scheduled") {
                         test_status["scheduled"]++;
-                    } else if (commands[command_keys[i]]["status"] === "in progress") {
+                    } else if (commands[command_keys[i]].status === "in progress") {
                         test_status["inprogress"]++;
                     }
-                }
+
+                    if (commands[command_keys[i]].details.code === 0) {
+                      test_status["success"]++;
+                    } else if (commands[command_keys[i]].details.code != 0 && commands[command_keys[i]].details.code != undefined) {
+                      test_status["failure"]++;
+                    }
+                 }
                 return test_status;
             },
             getTotalTests(item) {
