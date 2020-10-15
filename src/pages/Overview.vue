@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     loadData: async function () {
-      this.eurekaApps = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
+      this.eurekaApps = await this.loadTotalEurekaApps();
       this.agentsTotal = this.loadAgentsTotal();
       this.deployersTotal = this.loadDeployersTotal();
       this.discoveryTotal = this.loadDiscoveryTotal();
@@ -160,12 +160,9 @@ export default {
     },
     loadApps: function (appName) {
       let apps = [];
-      let keys_list = Object.keys(this.eurekaApps);
-      for (let i = 0; i < keys_list.length; i++) {
-        if (keys_list[i].includes(appName)) {
-          for (let j = 0; j < this.eurekaApps[keys_list[i]].length; j++) {
-            apps.push(this.eurekaApps[keys_list[i]][j]);
-          }
+      for (let i = 0; i < this.eurekaApps.length; i++) {
+        if (this.eurekaApps[i].app.includes(appName)) {
+            apps.push(this.eurekaApps[i]);
         }
       }
 
@@ -199,10 +196,10 @@ export default {
       return elem + "/deployments";
     },
     loadTotalDeployments: async function () {
-      let deployments_url_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addDeploymentsUrl)
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
       let deployments = [];
-      for (let i = 0; i < deployments_url_list.length; i++) {
-          let url = deployments_url_list[i]
+      for (let i = 0; i < discovery_list.length; i++) {
+          let url = this.addDeploymentsUrl(discovery_list[i])
           let deploymentsList = await this.apiServiceGet(url);
           for (let j = 0; j < deploymentsList.length; j++) {
               deployments.push(deploymentsList[j]);
@@ -215,10 +212,10 @@ export default {
       return elem + "/commandsdetached";
     },
     loadTotalBackgroundCmdsRunning: async function () {
-      let commands_url_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addCommandsUrl)
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
       let commandsDetached = [];
-      for (let i = 0; i < commands_url_list.length; i++) {
-          let url = commands_url_list[i]
+      for (let i = 0; i < discovery_list.length; i++) {
+          let url = this.addCommandsUrl(discovery_list[i])
           let commandsDetachedList = await this.apiServiceGet(url);
           for (let j = 0; j < commandsDetachedList.length; j++) {
             if (commandsDetachedList[j].started == true) {
@@ -233,15 +230,14 @@ export default {
         return elem + "/eurekaapps";
     },
     loadTotalEurekaApps: async function () {
-      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addEurekaAppsUrl)
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
       let activeEurekaApps = [];
       for (let i = 0; i < discovery_list.length; i++) {
-        let url = discovery_list[i]
+        let url = this.addEurekaAppsUrl(discovery_list[i])
         let eurekaAppsList = await this.apiServiceGet(url);
         let eureka_apps_keys = Object.keys(eurekaAppsList);
         for (let j = 0; j < eureka_apps_keys.length; j++) {
           for (let k = 0; k < eurekaAppsList[eureka_apps_keys[j]].length; k++) {
-            //eurekaAppsList[eureka_apps_keys[j]][k].discovery_url = discovery_list[i]
             activeEurekaApps.push(eurekaAppsList[eureka_apps_keys[j]][k]);
           }
         }
