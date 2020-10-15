@@ -12,7 +12,7 @@
       </sidebar-link>
       <sidebar-link to="/admin/estuary-agent">
         <i class="nc-icon nc-notes"></i>
-        <p>Tests</p>
+        <p>Commands</p>
       </sidebar-link>
       <sidebar-link to="/admin/estuary-discovery">
         <i class="nc-icon nc-notes"></i>

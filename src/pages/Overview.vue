@@ -16,7 +16,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="deployers-total">{{ deployersTotal }}</b-tooltip>
+        <!-- <b-tooltip target="deployers-total">{{ deployersTotal }}</b-tooltip> -->
 
         <div class="col-xl-3 col-md-6">
           <stats-card>
@@ -32,7 +32,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="agents-total">{{ agentsTotal }}</b-tooltip>
+        <!-- <b-tooltip target="agents-total">{{ agentsTotal }}</b-tooltip> -->
 
         <div class="col-xl-3 col-md-6">
           <stats-card>
@@ -48,7 +48,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="discovery-total">{{ discoveryTotal }}</b-tooltip>
+       <!-- <b-tooltip target="discovery-total">{{ discoveryTotal }}</b-tooltip> -->
 
       </div>
 
@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     loadData: async function () {
-      this.eurekaApps = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
+      this.eurekaApps = await this.loadTotalEurekaApps();
       this.agentsTotal = this.loadAgentsTotal();
       this.deployersTotal = this.loadDeployersTotal();
       this.discoveryTotal = this.loadDiscoveryTotal();
@@ -160,14 +160,12 @@ export default {
     },
     loadApps: function (appName) {
       let apps = [];
-      let keys_list = Object.keys(this.eurekaApps);
-      for (let i = 0; i < keys_list.length; i++) {
-        if (keys_list[i].includes(appName)) {
-          for (let j = 0; j < this.eurekaApps[keys_list[i]].length; j++) {
-            apps.push(this.eurekaApps[keys_list[i]][j]);
-          }
+      for (let i = 0; i < this.eurekaApps.length; i++) {
+        if (this.eurekaApps[i].app.includes(appName)) {
+            apps.push(this.eurekaApps[i]);
         }
       }
+
       return apps;
     },
     apiServiceGet: function (url) {
@@ -194,26 +192,54 @@ export default {
     loadDiscoveryTotal: function () {
       return this.loadApps("discovery");
     },
+    addDeploymentsUrl: function (elem) {
+      return elem + "/deployments";
+    },
     loadTotalDeployments: async function () {
-      return await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments");
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+      let deployments = [];
+      for (let i = 0; i < discovery_list.length; i++) {
+          let url = this.addDeploymentsUrl(discovery_list[i])
+          let deploymentsList = await this.apiServiceGet(url);
+          for (let j = 0; j < deploymentsList.length; j++) {
+              deployments.push(deploymentsList[j]);
+          }
+      }
+
+      return deployments;
+    },
+    addCommandsUrl: function (elem) {
+      return elem + "/commandsdetached";
     },
     loadTotalBackgroundCmdsRunning: async function () {
-      let commandsDetachedList = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/commandsdetached");
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
       let commandsDetached = [];
-      for (let i = 0; i < commandsDetachedList.length; i++) {
-        if (commandsDetachedList[i].started == true) {
-          commandsDetached.push(commandsDetachedList[i]);
-        }
+      for (let i = 0; i < discovery_list.length; i++) {
+          let url = this.addCommandsUrl(discovery_list[i])
+          let commandsDetachedList = await this.apiServiceGet(url);
+          for (let j = 0; j < commandsDetachedList.length; j++) {
+            if (commandsDetachedList[j].started == true) {
+              commandsDetached.push(commandsDetachedList[j]);
+            }
+          }
       }
+
       return commandsDetached;
     },
+    addEurekaAppsUrl: function (elem) {
+        return elem + "/eurekaapps";
+    },
     loadTotalEurekaApps: async function () {
-      let eurekaAppsList = await this.apiServiceGet(process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps");
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
       let activeEurekaApps = [];
-      let eureka_apps_keys = Object.keys(eurekaAppsList);
-      for (let i = 0; i < eureka_apps_keys.length; i++) {
-        for (let j = 0; j < eurekaAppsList[eureka_apps_keys[i]].length; j++) {
-          activeEurekaApps.push(eurekaAppsList[eureka_apps_keys[i]][j]);
+      for (let i = 0; i < discovery_list.length; i++) {
+        let url = this.addEurekaAppsUrl(discovery_list[i])
+        let eurekaAppsList = await this.apiServiceGet(url);
+        let eureka_apps_keys = Object.keys(eurekaAppsList);
+        for (let j = 0; j < eureka_apps_keys.length; j++) {
+          for (let k = 0; k < eurekaAppsList[eureka_apps_keys[j]].length; k++) {
+            activeEurekaApps.push(eurekaAppsList[eureka_apps_keys[j]][k]);
+          }
         }
       }
 

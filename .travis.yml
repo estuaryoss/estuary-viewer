@@ -27,10 +27,11 @@ before_script:
   - npm install
   - npm run build
   - docker pull alpine:3.9.4
+  - docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_TOKEN"
 
 script:
   - docker-compose -f docker-compose-entire_stack.yml pull
-  - docker build . -t estuaryoss/viewer:latest
+  - docker build . -t dinutac/estuary-viewer:latest
   - docker-compose -f docker-compose-entire_stack.yml up -d
   - sleep 90
   - docker ps

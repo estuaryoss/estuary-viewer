@@ -1,9 +1,9 @@
 {
   "name": "estuary-viewer",
-  "version": "4.0.7",
-  "private": true,
+  "version": "4.1.0",
+  "private": false,
   "description": "Viewer for estuary stack",
-  "author": "catalin dinuta <constantin.dinuta@gmail.com",
+  "author": "Catalin Dinuta <constantin.dinuta@gmail.com",
   "scripts": {
     "start": "npm run serve",
     "serve": "vue-cli-service serve",
@@ -32,10 +32,10 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.3",
-    "@vue/cli-plugin-eslint": "^4.5.3",
-    "@vue/cli-plugin-pwa": "^4.5.3",
-    "@vue/cli-service": "^4.5.3",
+    "@vue/cli-plugin-babel": "^4.5.7",
+    "@vue/cli-plugin-eslint": "^4.5.7",
+    "@vue/cli-plugin-pwa": "^4.5.7",
+    "@vue/cli-service": "^4.5.7",
     "eslint": "^7.7.0",
     "fibers": "^4.0.3",
     "node-sass": "^4.14.1",

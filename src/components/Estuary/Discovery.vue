@@ -97,15 +97,16 @@ export default {
   name: "Discovery",
   data() {
     return {
-      refreshTimer: 10000,
+      refreshTimer: 20000,
       items: [],
       fields: [
         {key: 'app', label: 'app', sortable: true, sortDirection: 'desc'},
         {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
         {key: 'healthCheckUrl', label: 'healthCheckUrl', sortable: true, class: 'text-center'},
         {key: 'statusPageUrl', label: 'statusPageUrl', sortable: true, sortDirection: 'desc'},
+        {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
         {key: 'ipAddr', label: 'ipAddr', sortable: true, sortDirection: 'desc'},
-        {key: 'port', label: 'port', sortable: true, sortDirection: 'desc'}
+        {key: 'port', label: 'port', sortable: true, sortDirection: 'desc'},
       ],
       totalRows: 1,
       currentPage: 1,
@@ -166,22 +167,29 @@ export default {
         return response.data.description;
       });
     },
+    getEurekaAppsUrl: function (elem) {
+      return elem + "/eurekaapps"
+    },
     loadData: function () {
       let table_list = [];
-      let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps";
-      this.apiServiceGet(url)
-        .then(response => {
-          let eureka_apps_keys = Object.keys(response);
-          for (let i = 0; i < eureka_apps_keys.length; i++) {
-            for (let j = 0; j < response[eureka_apps_keys[i]].length; j++) {
-              response[i] = response[eureka_apps_keys[i]][j]
-              response[i]._rowVariant = "success";
-              table_list.push(response[i]);
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+      for (let k = 0; k < discovery_list.length; k++) {
+        let url = this.getEurekaAppsUrl(discovery_list[k])
+        this.apiServiceGet(url)
+          .then(response => {
+            let eureka_apps_keys = Object.keys(response);
+            for (let i = 0; i < eureka_apps_keys.length; i++) {
+              for (let j = 0; j < response[eureka_apps_keys[i]].length; j++) {
+                response[i] = response[eureka_apps_keys[i]][j]
+                response[i].discoveryUrl  = discovery_list[k];
+                response[i]._rowVariant = "success";
+                table_list.push(response[i]);
+              }
             }
-          }
-        }).catch(function (error) {
-        console.log("Could not get a response from: " + url)
-      });
+          }).catch(function (error) {
+          console.log("Could not get a response from: " + url)
+        });
+      }
       return table_list;
     }
   },

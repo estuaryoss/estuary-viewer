@@ -62,13 +62,31 @@
     >
       <template v-slot:cell(progress)="row">
         <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
-          <b-progress-bar :value="getTestStatus(row.item).finished" variant="success" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).finished" variant="success" v-b-tooltip.hover
                           title="finished"></b-progress-bar>
-          <b-progress-bar :value="getTestStatus(row.item).inprogress" variant="warning" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).inprogress" variant="warning" v-b-tooltip.hover
                           title="in progress"></b-progress-bar>
-          <b-progress-bar :value="getTestStatus(row.item).scheduled" variant="info" v-b-tooltip.hover
+          <b-progress-bar :value="getTestProgress(row.item).scheduled" variant="info" v-b-tooltip.hover
                           title="scheduled"></b-progress-bar>
         </b-progress>
+      </template>
+
+      <template v-slot:cell(successStatus)="row">
+        <b-progress class="mt-2" :max="getTotalTests(row.item)" show-value>
+          <b-progress-bar :value="getTestProgress(row.item).success.success.length" variant="success" v-b-tooltip.hover
+                          :title="JSON.stringify(getTestProgress(row.item).success)"></b-progress-bar>
+          <b-progress-bar :value="getTestProgress(row.item).failure.failure.length" variant="danger" v-b-tooltip.hover
+                          :title="JSON.stringify(getTestProgress(row.item).failure)"></b-progress-bar>
+        </b-progress>
+      </template>
+
+      <template v-slot:cell(actions)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="details">
+          {{ row.detailsShowing ? 'Hide' : 'Show' }} Row
+        </b-button>
+        <b-button size="sm" @click="getCommandsDetails(row.item)" class="mr-1 logs">
+          Command details
+        </b-button>
       </template>
 
       <template v-slot:row-details="row">
@@ -107,16 +125,17 @@
         name: "Agent",
         data() {
             return {
-                refreshTimer: 10000,
+                refreshTimer: 20000,
                 items: [],
                 fields: [
                     {key: 'id', label: 'Test_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'started', label: 'Started', sortable: true, class: 'text-center'},
                     {key: 'finished', label: 'Finished', sortable: true, sortDirection: 'desc'},
-                    {key: 'commands', label: 'Commands', sortable: true, sortDirection: 'desc'},
-                    {key: 'processes', label: 'Processes', sortable: true, sortDirection: 'desc'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
-                    {key: 'progress', label: 'Test_Progress'}
+                    {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
+                    {key: 'progress', label: 'Test_Progress'},
+                    {key: 'successStatus', label: 'Status'},
+                    {key: 'actions', label: 'Actions'}
                 ],
                 totalRows: 1,
                 currentPage: 1,
@@ -154,23 +173,42 @@
             this.totalRows = this.items.length;
         },
         methods: {
-            getTestStatus(item) {
+            getCommandsDetails(item, button) {
+                var vm = this;
+                vm.infoModal.content = item.commands
+
+                this.infoModal.title = "Details";
+                this.$root.$emit('bv::show::modal', this.infoModal.id, button);
+            },
+            getTestProgress(item) {
                 let test_status = {
                     "finished": 0,
                     "scheduled": 0,
-                    "inprogress": 0
+                    "inprogress": 0,
+                    "success" : {
+                      "success": []
+                    },
+                    "failure" : {
+                      "failure": []
+                    },
                 }
                 let commands = JSON.parse(item.commands);
                 let command_keys = Object.keys(commands);
                 for (let i = 0; i < command_keys.length; i++) {
-                    if (commands[command_keys[i]]["status"] === "finished") {
+                    if (commands[command_keys[i]].status === "finished") {
                         test_status["finished"]++;
-                    } else if (commands[command_keys[i]]["status"] === "scheduled") {
+                    } else if (commands[command_keys[i]].status === "scheduled") {
                         test_status["scheduled"]++;
-                    } else if (commands[command_keys[i]]["status"] === "in progress") {
+                    } else if (commands[command_keys[i]].status === "in progress") {
                         test_status["inprogress"]++;
                     }
-                }
+
+                    if (commands[command_keys[i]].details.code === 0) {
+                      test_status["success"].success.push(command_keys[i]);
+                    } else if (commands[command_keys[i]].details.code != 0 && commands[command_keys[i]].details.code != undefined) {
+                      test_status["failure"].failure.push(command_keys[i]);
+                    }
+                 }
                 return test_status;
             },
             getTotalTests(item) {
@@ -199,19 +237,26 @@
                     return response.data.description;
                 });
             },
+            getCommandsUrl: function (elem) {
+              return elem + "/commandsdetached"
+            },
             loadData: function () {
                 let table_list = [];
-                let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/commandsdetached";
-                this.apiServiceGet(url)
-                    .then(response => {
-                        for (let i = 0; i < response.length; i++) {
-                            response[i].commands = JSON.stringify(response[i].commands);
-                            response[i]._rowVariant = "success";
-                            table_list.push(response[i]);
-                        }
-                    }).catch(function (error) {
-                    console.log("Could not get a response from: " + url)
-                });
+                let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+                for (let k = 0; k < discovery_list.length; k++) {
+                    let url = this.getCommandsUrl(discovery_list[k])
+                    this.apiServiceGet(url)
+                        .then(response => {
+                            for (let i = 0; i < response.length; i++) {
+                                response[i].commands = JSON.stringify(response[i].commands);
+                                response[i].discoveryUrl = discovery_list[k];
+                                response[i]._rowVariant = "success";
+                                table_list.push(response[i]);
+                            }
+                      }).catch(function (error) {
+                      console.log("Could not get a response from: " + url)
+                    });
+                }
                 return table_list;
             }
         },

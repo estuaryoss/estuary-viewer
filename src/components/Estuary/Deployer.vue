@@ -120,13 +120,14 @@
         activeDeployments: null,
         data() {
             return {
-                refreshTimer: 10000,
+                refreshTimer: 20000,
                 items: [],
                 activeDeployments: [],
                 fields: [
                     {key: 'id', label: 'Deployment_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'containers', label: 'Containers', sortable: true, class: 'text-center'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
+                    {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'actions', label: 'Actions'}
                 ],
                 totalRows: 1,
@@ -170,13 +171,13 @@
                 var vm = this;
                 axios({
                     method: 'get',
-                    url: "http://" + item.ip_port + "/docker/deployments/logs/" + item.id,
+                    url: item.discoveryUrl + "/deployers/docker/deployments/logs/" + item.id,
                     timeout: 2000,
                     headers: {
                       Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
                     }
                 }).then(function (response) {
-                    vm.infoModal.content = response.data.description;
+                    vm.infoModal.content = response.data.description[0].description;
                 });
 
                 this.infoModal.title = "Compose id: " + item.id;
@@ -217,19 +218,26 @@
                     return response.data.description;
                 });
             },
+            getDeploymentsUrl: function (elem) {
+              return elem + "/deployments"
+            },
             loadData: function () {
                 let table_list = [];
-                let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments";
-                this.apiServiceGet(url)
-                    .then(response => {
-                        for (let i = 0; i < response.length; i++) {
-                            response[i].commands = JSON.stringify(response[i].commands);
-                            response[i]._rowVariant = "success";
-                            table_list.push(response[i]);
-                        }
-                    }).catch(function (error) {
-                    console.log("Could not get a response from: " + url)
-                });
+                let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+                for (let i = 0; i < discovery_list.length; i++) {
+                    let url = this.getDeploymentsUrl(discovery_list[i])
+                    this.apiServiceGet(url)
+                        .then(response => {
+                            for (let j = 0; j < response.length; j++) {
+                                response[j].commands = JSON.stringify(response[j].commands);
+                                response[j].discoveryUrl = discovery_list[i];
+                                response[j]._rowVariant = "success";
+                                table_list.push(response[j]);
+                            }
+                        }).catch(function (error) {
+                        console.log("Could not get a response from: " + url)
+                    });
+                }
                 return table_list;
             },
             updateRowLength: function (len) {
