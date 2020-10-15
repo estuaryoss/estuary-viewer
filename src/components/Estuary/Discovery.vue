@@ -166,22 +166,28 @@ export default {
         return response.data.description;
       });
     },
+    addUrl: function (elem) {
+      return elem + "/eurekaapps"
+    },
     loadData: function () {
       let table_list = [];
-      let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/eurekaapps";
-      this.apiServiceGet(url)
-        .then(response => {
-          let eureka_apps_keys = Object.keys(response);
-          for (let i = 0; i < eureka_apps_keys.length; i++) {
-            for (let j = 0; j < response[eureka_apps_keys[i]].length; j++) {
-              response[i] = response[eureka_apps_keys[i]][j]
-              response[i]._rowVariant = "success";
-              table_list.push(response[i]);
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addUrl)
+      for (let i = 0; i < discovery_list.length; i++) {
+        let url = discovery_list[i]
+        this.apiServiceGet(url)
+          .then(response => {
+            let eureka_apps_keys = Object.keys(response);
+            for (let i = 0; i < eureka_apps_keys.length; i++) {
+              for (let j = 0; j < response[eureka_apps_keys[i]].length; j++) {
+                response[i] = response[eureka_apps_keys[i]][j]
+                response[i]._rowVariant = "success";
+                table_list.push(response[i]);
+              }
             }
-          }
-        }).catch(function (error) {
-        console.log("Could not get a response from: " + url)
-      });
+          }).catch(function (error) {
+          console.log("Could not get a response from: " + url)
+        });
+      }
       return table_list;
     }
   },

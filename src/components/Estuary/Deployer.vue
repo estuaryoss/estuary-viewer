@@ -217,19 +217,25 @@
                     return response.data.description;
                 });
             },
+            addUrl: function (elem) {
+              return elem + "/deployments"
+            },
             loadData: function () {
                 let table_list = [];
-                let url = process.env.VUE_APP_ESTUARY_DISCOVERY + "/deployments";
-                this.apiServiceGet(url)
-                    .then(response => {
-                        for (let i = 0; i < response.length; i++) {
-                            response[i].commands = JSON.stringify(response[i].commands);
-                            response[i]._rowVariant = "success";
-                            table_list.push(response[i]);
-                        }
-                    }).catch(function (error) {
-                    console.log("Could not get a response from: " + url)
-                });
+                let deployments_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",").map(this.addUrl)
+                for (let i = 0; i < deployments_list.length; i++) {
+                    let url = deployments_list[i]
+                    this.apiServiceGet(url)
+                        .then(response => {
+                            for (let i = 0; i < response.length; i++) {
+                                response[i].commands = JSON.stringify(response[i].commands);
+                                response[i]._rowVariant = "success";
+                                table_list.push(response[i]);
+                            }
+                        }).catch(function (error) {
+                        console.log("Could not get a response from: " + url)
+                    });
+                }
                 return table_list;
             },
             updateRowLength: function (len) {

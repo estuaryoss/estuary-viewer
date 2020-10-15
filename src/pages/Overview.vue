@@ -16,7 +16,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="deployers-total">{{ deployersTotal }}</b-tooltip>
+        <!-- <b-tooltip target="deployers-total">{{ deployersTotal }}</b-tooltip> -->
 
         <div class="col-xl-3 col-md-6">
           <stats-card>
@@ -32,7 +32,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="agents-total">{{ agentsTotal }}</b-tooltip>
+        <!-- <b-tooltip target="agents-total">{{ agentsTotal }}</b-tooltip> -->
 
         <div class="col-xl-3 col-md-6">
           <stats-card>
@@ -48,7 +48,7 @@
             </div>
           </stats-card>
         </div>
-        <b-tooltip target="discovery-total">{{ discoveryTotal }}</b-tooltip>
+       <!-- <b-tooltip target="discovery-total">{{ discoveryTotal }}</b-tooltip> -->
 
       </div>
 
