@@ -26,7 +26,7 @@ services:
       - HUB_PORT=4444
 
   estuary-agent:
-    image: dinutac/estuary-agent:latest
+    image: estuaryoss/agent:latest
     hostname: estuary-agent
     #    entrypoint: tail -f /etc/alpine-release
     command: bash -c "sleep 45 && /scripts/main_flask.py"
@@ -38,7 +38,7 @@ services:
       - "8080"
 
   estuary-discovery:
-    image: dinutac/estuary-discovery:latest
+    image: estuaryoss/discovery:latest
     hostname: estuary-discovery
     command: bash -c "sleep 45 && /scripts/main_flask.py"
     environment:
@@ -51,7 +51,7 @@ services:
       - "8080"
 
   estuary-deployer:
-    image: dinutac/estuary-deployer:latest
+    image: estuaryoss/deployer:latest
     hostname: estuary-deployer
     #    entrypoint: tail -f /etc/alpine-release
     environment:
@@ -70,7 +70,7 @@ services:
       - "8080"
 
   eureka-server:
-    image: dinutac/netflixoss-eureka:latest
+    image: estuaryoss/netflix-eureka:latest
     hostname: eureka-server
 #    ports:
 #      - "8080:8080"
@@ -78,7 +78,7 @@ services:
       - "8080"
 
   estuary-viewer:
-    image: dinutac/estuary-viewer:latest
+    image: estuaryoss/viewer:latest
     hostname: estuary-viewer
     entrypoint: bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://estuary-discovery:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
     container_name: estuary-viewer
