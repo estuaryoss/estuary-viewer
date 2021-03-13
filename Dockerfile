@@ -1,9 +1,14 @@
 # specify the node base image with your desired version node:<version>
 FROM node:14.5.0
 
-COPY ./ /home/node/app/
+ENV APP_DIR /home/node/app
 
-RUN chmod 744 /home/node/app/*.sh
+COPY ./ $APP_DIR
+WORKDIR $APP_DIR
+
+RUN npm install
+
+RUN chmod 744 $APP_DIR/*.sh
 
 EXPOSE 8080
 
