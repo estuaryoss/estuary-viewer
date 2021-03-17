@@ -1,7 +1,5 @@
 <h1 align="center"><img src="./docs/images/banner_estuary.png" alt="Testing as a service with Docker"></h1>
 
-Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img src="https://lh3.googleusercontent.com/Y2_nyEd0zJftXnlhQrWoweEvAy4RzbpDah_65JGQDKo9zCcBxHVpajYgXWFZcXdKS_o=s180-rw" height="40" width="40" align="center"></a>
-
 ## Estuary viewer
 View live the estuary stack:
 -   active deployments on the deployers
@@ -17,7 +15,7 @@ View live the estuary stack:
 
 Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-light-bootstrap-dashboard.git
 
-<h1 align="center"><img src="./docs/images/dash_viewer.png" alt="Testing as a service with Docker"></h1>
+![image](https://user-images.githubusercontent.com/43060213/111429327-8ae65500-8701-11eb-98f4-273be82388a0.png)
 
 ## Docker run - wo auth token
 Default token is 'None' for no HTTP auth
@@ -44,7 +42,9 @@ docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_D
 ```
 
 ## Estuary stack
-[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)
-[Estuary agent](https://github.com/estuaryoss/estuary-agent)
-[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)
-[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)
+[Estuary deployer](https://github.com/estuaryoss/estuary-deployer)   
+[Estuary agent](https://github.com/estuaryoss/estuary-agent)  
+[Estuary discovery](https://github.com/estuaryoss/estuary-discovery)  
+[Estuary viewer](https://github.com/estuaryoss/estuary-viewer)  
+
+Support project: <a href="https://paypal.me/catalindinuta?locale.x=en_US"><img src="https://lh3.googleusercontent.com/Y2_nyEd0zJftXnlhQrWoweEvAy4RzbpDah_65JGQDKo9zCcBxHVpajYgXWFZcXdKS_o=s180-rw" height="40" width="40" align="center"></a>
