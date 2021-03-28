@@ -43,6 +43,7 @@ script:
     --request POST 'http://estuary-agent:8080/commanddetached/100'
     --header 'Accept:application/json'
     --header 'Content-Type:text/plain'
+    --header 'Token:None'
     --data 'sleep 1\nsleep 2\nsleep 3600'"
   - sleep 20
   - docker exec estuary-viewer sh -c "cd /home/node/app/; npm test"
