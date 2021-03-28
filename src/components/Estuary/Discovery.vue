@@ -107,6 +107,7 @@ export default {
         {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
         {key: 'ipAddr', label: 'ipAddr', sortable: true, sortDirection: 'desc'},
         {key: 'port', label: 'port', sortable: true, sortDirection: 'desc'},
+        {key: 'securePort', label: 'securePort', sortable: true, sortDirection: 'desc'},
       ],
       totalRows: 1,
       currentPage: 1,
