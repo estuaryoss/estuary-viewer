@@ -171,7 +171,7 @@
                 var vm = this;
                 axios({
                     method: 'get',
-                    url: item.discoveryUrl + "/deployers/docker/deployments/logs/" + item.id,
+                    url: item.discoveryUrl + "/deployers/deployments/logs/" + item.id,
                     timeout: 2000,
                     headers: {
                       Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
