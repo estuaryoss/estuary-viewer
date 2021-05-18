@@ -1,6 +1,6 @@
 {
   "name": "estuary-viewer",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "private": false,
   "description": "Viewer for estuary stack",
   "author": "Catalin Dinuta <constantin.dinuta@gmail.com",
