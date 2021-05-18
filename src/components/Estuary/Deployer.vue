@@ -126,6 +126,7 @@
                 fields: [
                     {key: 'id', label: 'Deployment_Id', sortable: true, sortDirection: 'desc'},
                     {key: 'containers', label: 'Containers', sortable: true, class: 'text-center'},
+                    {key: 'metadata', label: 'Metadata', sortable: true, class: 'text-center'},
                     {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
                     {key: 'actions', label: 'Actions'}
