@@ -84,7 +84,7 @@
 
       <template v-slot:row-details="row">
         <b-card>
-          {{row.item}}
+          {{ row.item }}
         </b-card>
       </template>
     </b-table>
@@ -108,163 +108,162 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import * as axios from "axios";
-    import JsonCSV from 'vue-json-csv'
+import Vue from 'vue'
+import * as axios from "axios";
+import JsonCSV from 'vue-json-csv'
 
-    Vue.component('downloadCsv', JsonCSV);
+Vue.component('downloadCsv', JsonCSV);
 
-    export default {
+export default {
 
-        name: "Deployer",
-        activeDeployments: null,
-        data() {
-            return {
-                refreshTimer: 20000,
-                items: [],
-                activeDeployments: [],
-                fields: [
-                    {key: 'id', label: 'Deployment_Id', sortable: true, sortDirection: 'desc'},
-                    {key: 'containers', label: 'Containers', sortable: true, class: 'text-center'},
-                    {key: 'metadata', label: 'Metadata', sortable: true, class: 'text-center'},
-                    {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
-                    {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
-                    {key: 'actions', label: 'Actions'}
-                ],
-                totalRows: 1,
-                currentPage: 1,
-                perPage: 10,
-                pageOptions: [5, 10, 15, 30],
-                sortBy: null,
-                sortDesc: false,
-                sortDirection: 'asc',
-                filter: null,
-                filterOn: [],
-                infoModal: {
-                    id: 'info-modal',
-                    title: '',
-                    content: ''
-                }
-            }
-        },
-        computed: {
-            sortOptions() {
-                // Create an options list from our fields
-                return this.fields
-                    .filter(f => f.sortable)
-                    .map(f => {
-                        return {text: f.label, value: f.key}
-                    })
-            }
-        },
-        created() {
-            this.items = this.loadData();
-            this.interval = setInterval(function () {
-                this.items = this.loadData();
-            }.bind(this), this.refreshTimer);
-        },
-        mounted() {
-            // Set the initial number of items
-            this.totalRows = this.items.length;
-        },
-        methods: {
-            getLogs(item, button) {
-                var vm = this;
-                axios({
-                    method: 'get',
-                    url: item.discoveryUrl + "/deployers/deployments/logs/" + item.id,
-                    timeout: 2000,
-                    headers: {
-                      Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
-                    }
-                }).then(function (response) {
-                    vm.infoModal.content = response.data.description[0].description;
-                });
-
-                this.infoModal.title = "Compose id: " + item.id;
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button);
-            },
-            getIndex(row) {
-                let index = 0;
-                for (let i = 0; i < this.items.length; i++) {
-                    //something
-                }
-                return index;
-            },
-            deleteRow(row) {
-                this.items.splice(this.getIndex(row), 1);
-            },
-            info(item, index, button) {
-                this.infoModal.title = `Row index: ${index}`;
-                this.infoModal.content = JSON.stringify(item, null, 2);
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-            },
-            resetInfoModal() {
-                this.infoModal.title = '';
-                this.infoModal.content = ''
-            },
-            onFiltered(filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
-                this.updateRowLength(filteredItems.length);
-                this.currentPage = 1;
-            },
-            apiServiceGet: function (url) {
-                return axios({
-                method: 'get',
-                url: url,
-                headers: {
-                  Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
-                }
-                }).then((response) => {
-                    return response.data.description;
-                });
-            },
-            getDeploymentsUrl: function (elem) {
-              return elem + "/deployments"
-            },
-            loadData: function () {
-                let table_list = [];
-                let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
-                for (let i = 0; i < discovery_list.length; i++) {
-                    let url = this.getDeploymentsUrl(discovery_list[i])
-                    this.apiServiceGet(url)
-                        .then(response => {
-                            for (let j = 0; j < response.length; j++) {
-                                response[j].commands = JSON.stringify(response[j].commands);
-                                response[j].discoveryUrl = discovery_list[i];
-                                response[j]._rowVariant = "success";
-                                table_list.push(response[j]);
-                            }
-                        }).catch(function (error) {
-                        console.log("Could not get a response from: " + url)
-                    });
-                }
-                return table_list;
-            },
-            updateRowLength: function (len) {
-                this.totalRows = len;
-            }
-        }
+  name: "Deployer",
+  activeDeployments: null,
+  data() {
+    return {
+      refreshTimer: 20000,
+      items: [],
+      activeDeployments: [],
+      fields: [
+        {key: 'id', label: 'Deployment_Id', sortable: true, sortDirection: 'desc'},
+        {key: 'containers', label: 'Containers', sortable: true, class: 'text-center'},
+        {key: 'metadata', label: 'Metadata', sortable: true, class: 'text-center'},
+        {key: 'homePageUrl', label: 'homePageUrl', sortable: true, sortDirection: 'desc'},
+        {key: 'discoveryUrl', label: 'discoveryUrl', sortable: true, sortDirection: 'desc'},
+        {key: 'actions', label: 'Actions'}
+      ],
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 10,
+      pageOptions: [5, 10, 15, 30],
+      sortBy: null,
+      sortDesc: false,
+      sortDirection: 'asc',
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: 'info-modal',
+        title: '',
+        content: ''
+      }
     }
+  },
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return {text: f.label, value: f.key}
+        })
+    }
+  },
+  created() {
+    this.loadData();
+    this.interval = setInterval(this.loadData, this.refreshTimer);
+  },
+  mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length;
+  },
+  methods: {
+    getLogs(item, button) {
+      var vm = this;
+      axios({
+        method: 'get',
+        url: item.discoveryUrl + "/deployers/deployments/logs/" + item.id,
+        timeout: 2000,
+        headers: {
+          Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
+        }
+      }).then(function (response) {
+        vm.infoModal.content = response.data.description[0].description;
+      });
+
+      this.infoModal.title = "Compose id: " + item.id;
+      this.$root.$emit('bv::show::modal', this.infoModal.id, button);
+    },
+    getIndex(row) {
+      let index = 0;
+      for (let i = 0; i < this.items.length; i++) {
+        //something
+      }
+      return index;
+    },
+    deleteRow(row) {
+      this.items.splice(this.getIndex(row), 1);
+    },
+    info(item, index, button) {
+      this.infoModal.title = `Row index: ${index}`;
+      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+    },
+    resetInfoModal() {
+      this.infoModal.title = '';
+      this.infoModal.content = ''
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.updateRowLength(filteredItems.length);
+      this.currentPage = 1;
+    },
+    apiServiceGet: function (url) {
+      return axios({
+        method: 'get',
+        url: url,
+        headers: {
+          Token: process.env.VUE_APP_HTTP_AUTH_TOKEN
+        }
+      }).then((response) => {
+        return response.data.description;
+      });
+    },
+    getDeploymentsUrl: function (elem) {
+      return elem + "/deployments"
+    },
+    loadData: function () {
+      let table_list = [];
+      let discovery_list = process.env.VUE_APP_ESTUARY_DISCOVERY.split(",")
+      for (let i = 0; i < discovery_list.length; i++) {
+        let url = this.getDeploymentsUrl(discovery_list[i])
+        this.apiServiceGet(url)
+          .then(response => {
+            for (let j = 0; j < response.length; j++) {
+              response[j].discoveryUrl = discovery_list[i];
+              response[j].metadata = JSON.stringify(response[j].metadata);
+              response[j]._rowVariant = "success";
+              table_list.push(response[j]);
+            }
+          }).catch(function (error) {
+          console.log("Could not get a response from: " + url)
+        });
+      }
+      this.items = table_list.sort();
+    },
+
+    updateRowLength: function (len) {
+      this.totalRows = len;
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  h3 {
-    margin: 40px 0 0;
-  }
+h3 {
+  margin: 40px 0 0;
+}
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
 
-  a {
-    color: #42b983;
-  }
+a {
+  color: #42b983;
+}
 </style>

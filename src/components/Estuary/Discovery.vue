@@ -90,6 +90,7 @@
 import Vue from 'vue'
 import * as axios from "axios"
 import JsonCSV from 'vue-json-csv'
+import _ from 'lodash'
 
 Vue.component('downloadCsv', JsonCSV);
 
@@ -136,10 +137,8 @@ export default {
     }
   },
   created() {
-    this.items = this.loadData();
-    this.interval = setInterval(function () {
-      this.items = this.loadData();
-    }.bind(this), this.refreshTimer);
+    this.loadData();
+    this.interval = setInterval(this.loadData, this.refreshTimer);
   },
   mounted() {
     this.totalRows = this.items.length;
@@ -182,7 +181,7 @@ export default {
             for (let i = 0; i < eureka_apps_keys.length; i++) {
               for (let j = 0; j < response[eureka_apps_keys[i]].length; j++) {
                 response[i] = response[eureka_apps_keys[i]][j]
-                response[i].discoveryUrl  = discovery_list[k];
+                response[i].discoveryUrl = discovery_list[k];
                 response[i]._rowVariant = "success";
                 table_list.push(response[i]);
               }
@@ -191,7 +190,8 @@ export default {
           console.log("Could not get a response from: " + url)
         });
       }
-      return table_list;
+
+      this.items = table_list.sort();
     }
   },
   beforeDestroy: function () {

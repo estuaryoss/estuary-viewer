@@ -2,14 +2,16 @@
 FROM node:14.5.0
 
 ENV APP_DIR /home/node/app
-
-COPY ./ $APP_DIR
 WORKDIR $APP_DIR
 
-RUN npm install
+COPY ./ $APP_DIR
 
-RUN chmod 744 $APP_DIR/*.sh
+RUN rm -rf $APP_DIR/node_modules
+RUN npm install
+RUN npm run build
+
+RUN chmod 744 $APP_DIR/start.sh
 
 EXPOSE 8080
 
-CMD ["/home/node/app/start.sh"]
+ENTRYPOINT ["/home/node/app/start.sh"]

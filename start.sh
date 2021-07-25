@@ -1,4 +1,6 @@
 #!/bin/bash
-cd /home/node/app
-#npm rebuild node-sass
+
+echo VUE_APP_ESTUARY_DISCOVERY=${ESTUARY_DISCOVERY} > ${APP_DIR}/.env
+echo VUE_APP_HTTP_AUTH_TOKEN=${HTTP_AUTH_TOKEN} >> ${APP_DIR}/.env
+
 npm start

@@ -16,7 +16,7 @@
       </sidebar-link>
       <sidebar-link to="/admin/estuary-discovery">
         <i class="nc-icon nc-notes"></i>
-        <p>Eureka Apps</p>
+        <p>Eureka apps</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">
