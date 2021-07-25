@@ -9,11 +9,21 @@ import LightBootstrap from './light-bootstrap-main'
 
 // router setup
 import routes from './routes/routes'
-
+import Vuex from 'vuex'
 import './registerServiceWorker'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    deployments: [],
+    commands: [],
+    eurekaApps: []
+  },
+  mutations: {}
+})
 
 // configure router
 const router = new VueRouter({
@@ -23,7 +33,7 @@ const router = new VueRouter({
     if (to.hash) {
       return {selector: to.hash}
     } else {
-      return { x: 0, y: 0 }
+      return {x: 0, y: 0}
     }
   }
 })
@@ -31,6 +41,7 @@ const router = new VueRouter({
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   render: h => h(App),
   router
 })

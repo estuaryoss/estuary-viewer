@@ -81,8 +81,10 @@ services:
   estuary-viewer:
     image: estuaryoss/viewer:latest
     hostname: estuary-viewer
-    entrypoint: bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://estuary-discovery:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
     container_name: estuary-viewer
+    environment:
+      ESTUARY_DISCOVERY: http://estuary-discovery:8080
+      HTTP_AUTH_TOKEN: None
 #    ports:
 #      - "8091:8080"
     expose:

@@ -74,6 +74,7 @@
         </div>
       </div>
     </div>
+    <div><p>Version: {{getAppVersion}}</p></div>
   </div>
 </template>
 <script>
@@ -132,6 +133,11 @@ export default {
     this.barChart.data = await this.loadChart();
     this.loaded = true;
   },
+  computed:{
+    getAppVersion(){
+      return process.env.PACKAGE_VERSION
+    }
+  },
   methods: {
     loadData: async function () {
       this.eurekaApps = await this.loadTotalEurekaApps();
@@ -141,7 +147,7 @@ export default {
     },
     loadChart: async function () {
       let dataSeries = {
-        labels: ['Active Deployments', 'Active commands', 'Eureka Apps'],
+        labels: ['Active Deployments', 'Active commands', 'Eureka apps'],
         series: [
           [0, 0, 0]
         ]
