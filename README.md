@@ -20,25 +20,23 @@ Frontend copyright(MIT license): https://github.com/creativetimofficial/vue-ligh
 ## Docker run - wo auth token
 Default token is 'None' for no HTTP auth
 ```shell script
-docker run -p 8080:8080 estuaryoss/viewer:latest \
-bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http(s)://estuary_discovery_ip:estuary_discovery_port > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env;/home/node/app/start.sh"
-
+docker run -p 8080:8080 -e ESTUARY_DISCOVERY=http(s)://estuary_discovery_ip:estuary_discovery_port -e HTTP_AUTH_TOKEN=None estuaryoss/viewer:latest
 ```
 
 E.g.:
 ```shell script
-docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=None >> /home/node/app/.env; /home/node/app/start.sh"
+docker run -p 8080:8080 -e ESTUARY_DISCOVERY=http://192.168.100.8:8080 -e HTTP_AUTH_TOKEN=None estuaryoss/viewer:latest
 ```
 
 ## Docker run - with auth token
 ```shell script
-docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
+docker run -p 8080:8080 -e ESTUARY_DISCOVERY=http://192.168.100.8:8080 -e HTTP_AUTH_TOKEN=mysecrettoken estuaryoss/viewer:latest
 ```
 
 ## Docker run - aggregating multiple discovery(ies)
 Viewer supports aggregating multiples discovery services. List the discovery services separated by a comma.
 ```shell script
-docker run -p 8080:8080 estuaryoss/viewer:latest bash -c "echo VUE_APP_ESTUARY_DISCOVERY=http://192.168.100.8:8080,http://192.168.100.9:8080 > /home/node/app/.env; echo VUE_APP_HTTP_AUTH_TOKEN=mysecrettoken >> /home/node/app/.env; /home/node/app/start.sh"
+docker run -p 8080:8080 -e ESTUARY_DISCOVERY=http://192.168.100.8:8080,http://192.168.100.9:8080 -e HTTP_AUTH_TOKEN=mysecrettoken estuaryoss/viewer:latest
 ```
 
 ## Estuary stack
