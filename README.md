@@ -1,5 +1,7 @@
 <h1 align="center"><img src="./docs/images/banner_estuary.png" alt="Testing as a service with Docker"></h1>
 
+# Won't be maintained. Is is replaced by [Estuary UI](https://github.com/estuaryoss/estuary-ui)
+
 ## Estuary viewer
 View live the estuary stack:
 -   active deployments on the deployers
